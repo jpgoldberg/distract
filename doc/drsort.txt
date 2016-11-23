@@ -1,0 +1,242 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+		Use of the drsort program
+
+The drsort program is designed to transform the output of the
+distrat program, so that that output could be used as input to
+a variety of programs for further (usually statistical) analysis.
+
+The distrat program produces its output on distance ratio per line.
+If the files named in the list of maps used by distrat are ordered so
+that, for example, the first file in the list has map id "test-01"
+and the second "test-02" up to "test-10" the the output will be
+something like what appears in the file shortdr.out, excerpts of which
+follow:
+
+DR(test-01, test-02) = 0.0102
+DR(test-01, test-03) = 0.0103
+DR(test-01, test-04) = 0.0104
+[... 4 lines omitted ...]
+DR(test-01, test-09) = 0.0109
+DR(test-01, test-10) = 0.0110
+DR(test-02, test-03) = 0.0203
+DR(test-02, test-04) = 0.0204
+[... 5 lines omitted ...]
+DR(test-02, test-10) = 0.0210
+DR(test-03, test-04) = 0.0304
+DR(test-03, test-05) = 0.0305
+[... 23 lines omitted ...]
+DR(test-08, test-09) = 0.0809
+DR(test-08, test-10) = 0.0810
+DR(test-09, test-10) = 0.0910
+
+Note that this sample file is contrived so that the distance ratio
+between test-N and test-M bares a striking relation to N and M.
+
+The ordering of this output constitutes the upper right corner of
+a distance matrix without the diagonal.  This ordering of the
+data, not to mention the "DR(......) = " stuff on each line,
+makes this inappropriate input to other data analysis routines.
+
+The program drsort is designed to fix this, for people who
+are not comfortable doing so with the standard utility language awk.
+
+In the following examples, I will use  "% " to represent the
+users prompt; so what you see after such a thing is what you type.
+
+The -h option will provide a brief usage message about the command
+line options.
+
+% drsort -h
+drsort: Copyright Jeff Goldberg 1994
+Usage:
+	drsort [-lufezh] [-d N]
+		-h	this message [ON]
+		-l	Lower left corner [ON]
+		-u	Upper right corner [OFF]
+		-f	Full matrix (implies -z) [OFF]
+		-z	Zero's in diagonal [ON]
+		-e	Empty diagonals [OFF]
+		-d N	Debug info level [0]
+%
+
+As you can see there are many option, but you won't need most of them.
+
+The program reads from standard input, which means that if
+you want to read data from a file (which is usually the case)
+you will have to redirect input with the " < " symbol.  For
+example if you input for the drsort is in shortdr.out (it was
+output of the distrat program), then you would do something like:
+
+% drsort < shortdr.out
+drsort: Copyright Jeff Goldberg 1994
+ 0.0000
+ 0.0102 0.0000
+ 0.0103 0.0203 0.0000
+ 0.0104 0.0204 0.0304 0.0000
+ 0.0105 0.0205 0.0305 0.0405 0.0000
+ 0.0106 0.0206 0.0306 0.0406 0.0506 0.0000
+ 0.0107 0.0207 0.0307 0.0407 0.0507 0.0607 0.0000
+ 0.0108 0.0208 0.0308 0.0408 0.0508 0.0608 0.0708 0.0000
+ 0.0109 0.0209 0.0309 0.0409 0.0509 0.0609 0.0709 0.0809 0.0000
+ 0.0110 0.0210 0.0310 0.0410 0.0510 0.0610 0.0710 0.0810 0.0910 0.0000
+
+%
+As you can see, by default the output is a lower left corner with
+zeros in the diagonal.  If you wanted to save this output, let's
+say into a file called "statdist.dat" you could do something like:
+
+% drsort < shortdr.out > statdist.dat
+drsort: Copyright Jeff Goldberg 1994
+
+%
+
+And now the file statdist.dat will contain the out put which
+you can examine with with cat or more (or TYPE on DOS).
+
+On systems where using pipes makes sense you can pipe the
+out put of distrat directly to drsort
+
+% distrat -f list | drsort
+CM Distance Ratio. Copyright 1992, 1993 by Jeff Goldberg
+drsort: Copyright Jeff Goldberg 1994
+ 0.0000
+ 0.4923 0.0000
+ 0.6383 0.6184 0.0000
+ 0.6520 0.7766 0.6649 0.0000
+ 0.6520 0.7990 0.6915 0.4923 0.0000
+ 0.5789 0.4741 0.4692 0.5614 0.6814 0.0000
+ 0.4500 0.6491 0.6833 0.6373 0.7553 0.6471 0.0000
+ 0.5482 0.7979 0.7167 0.5833 0.6765 0.7500 0.6569 0.0000
+ 0.6422 0.6192 0.5702 0.6915 0.7611 0.5192 0.5965 0.7389 0.0000
+ 0.5269 0.6798 0.5965 0.7304 0.6886 0.5385 0.5000 0.7500 0.8032 0.0000
+
+Of course this output could also be redirected
+
+% distrat -f list | drsort > statin.dat
+CM Distance Ratio. Copyright 1992, 1993 by Jeff Goldberg
+drsort: Copyright Jeff Goldberg 1994
+
+And now statin.dat contains the matrix.
+
+DIFFERENT OUTPUT FORMS
+
+By default, drsort gives a lower left triangle.  If you want
+and upper right one, use the -u option
+
+% drsort -u < shortdr.out
+drsort: Copyright Jeff Goldberg 1994
+ 0.0000 0.0102 0.0103 0.0104 0.0105 0.0106 0.0107 0.0108 0.0109 0.0110
+        0.0000 0.0203 0.0204 0.0205 0.0206 0.0207 0.0208 0.0209 0.0210
+               0.0000 0.0304 0.0305 0.0306 0.0307 0.0308 0.0309 0.0310
+                      0.0000 0.0405 0.0406 0.0407 0.0408 0.0409 0.0410
+                             0.0000 0.0506 0.0507 0.0508 0.0509 0.0510
+                                    0.0000 0.0607 0.0608 0.0609 0.0610
+                                           0.0000 0.0708 0.0709 0.0710
+                                                  0.0000 0.0809 0.0810
+                                                         0.0000 0.0910
+                                                                0.0000
+
+
+If you want a full symmetrical matrix, use the -f option
+
+% drsort -f < shortdr.out
+drsort: Copyright Jeff Goldberg 1994
+ 0.0000 0.0102 0.0103 0.0104 0.0105 0.0106 0.0107 0.0108 0.0109 0.0110
+ 0.0102 0.0000 0.0203 0.0204 0.0205 0.0206 0.0207 0.0208 0.0209 0.0210
+ 0.0103 0.0203 0.0000 0.0304 0.0305 0.0306 0.0307 0.0308 0.0309 0.0310
+ 0.0104 0.0204 0.0304 0.0000 0.0405 0.0406 0.0407 0.0408 0.0409 0.0410
+ 0.0105 0.0205 0.0305 0.0405 0.0000 0.0506 0.0507 0.0508 0.0509 0.0510
+ 0.0106 0.0206 0.0306 0.0406 0.0506 0.0000 0.0607 0.0608 0.0609 0.0610
+ 0.0107 0.0207 0.0307 0.0407 0.0507 0.0607 0.0000 0.0708 0.0709 0.0710
+ 0.0108 0.0208 0.0308 0.0408 0.0508 0.0608 0.0708 0.0000 0.0809 0.0810
+ 0.0109 0.0209 0.0309 0.0409 0.0509 0.0609 0.0709 0.0809 0.0000 0.0910
+ 0.0110 0.0210 0.0310 0.0410 0.0510 0.0610 0.0710 0.0810 0.0910 0.0000
+
+If you want the diagonal to be empty, use the -e option
+
+% drsort -e < shortdr.out
+drsort: Copyright Jeff Goldberg 1994
+ 0.0102
+ 0.0103 0.0203
+ 0.0104 0.0204 0.0304
+ 0.0105 0.0205 0.0305 0.0405
+ 0.0106 0.0206 0.0306 0.0406 0.0506
+ 0.0107 0.0207 0.0307 0.0407 0.0507 0.0607
+ 0.0108 0.0208 0.0308 0.0408 0.0508 0.0608 0.0708
+ 0.0109 0.0209 0.0309 0.0409 0.0509 0.0609 0.0709 0.0809
+ 0.0110 0.0210 0.0310 0.0410 0.0510 0.0610 0.0710 0.0810 0.0910
+
+The -e and the -u option can be used together to get an
+upper right corner with empty diagonals.
+
+If you try to use conflicting options (-f and -u for example) the
+result will be unpredictable.
+
+The program will only accept input which is in the form of the
+output of the distrat program.
+
+TIME AND SPACE
+
+As someone pointed out, time and space are the Yin and Yang of
+programming.  This program tries to find its way through this
+in a reasonable manner.  The amount of space for floating
+point numbers reserved by the program at its point of maximal
+memory usage is:
+
+Floatpoint units = pairs + maps -1
+
+where maps is the number of maps, and pairs is the number of
+distance ratios between maps (ie, (maps^2-maps)/2); so
+that works out to (maps^2+maps)/2 -1 .
+
+The number of memory pointers at this maximum time will
+actually be nearly the same
+
+Memory pointers = pairs + maps
+
+So the total maximum memory usage of the program will be
+
+size_of_program_file + (sizeof_float + sizeof_mempointer)*(maps^2+maps)/2)
+
+A typical size of these things would be for both for each floating
+point number to require 4 bytes and for each pointer to require 4
+bytes and for the program to be about 30 thousand bytes.  So, under
+such a configuration memory usage is
+
+Memory usage = 30000 + 4(maps^2+maps)
+
+in bytes.
+
+So for 100 maps about 70K of memory is needed.  While for 350 maps
+about 522K of memory would be needed.  This strikes me as a
+sufficiently large number, since on systems with restricted memory
+you would probably not be able to get your statistical package to
+work on that much data anyway.
+
+It would have been possible to write the program to use less memory,
+but would have either required the user to tell the program
+how many maps were used or have the program make two passes
+over the input (the first time through to count its length).
+
+This program will not be built in the the distrat program
+since it would force the distrat program to store all its
+output.  The use of the pipe (distrat args | drsort ) should
+be sufficient.

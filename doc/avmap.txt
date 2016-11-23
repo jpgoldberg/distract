@@ -1,0 +1,177 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+		Usage of the avmap program
+
+The avmap program performs the calculation descriped in Markoczy and
+Goldberg (1995) (forthcoming, Journal of Management, Reseach Methods
+and Analysis section, April 1995) for creating the `average',
+`central', or `typical' maps.
+
+Like all programs in the package, it takes options in the Unix style.
+(See documentation of distrat for a discussion of this.)  As with
+many of the other programs it can either read map file names from a
+file containing a list of file names, or the map file names can be on
+the command line.
+
+For example to get the average map for the three maps tun01 tun02
+tun03 you would do the following
+
+% avmap tun01 tun02 tun03
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+Map id: Average-map
+7
+     8     27     36     37     40     41     47
+
+ 0.000 -2.000 -1.000  3.000 -3.000  0.500  1.500
+ 1.000  0.000  2.000  3.000  0.000  1.500  2.500
+ 0.000  3.000  0.000  3.000  0.000  0.500  0.500
+ 1.000  3.000  2.000  0.000 -1.000  3.000  1.500
+-2.500  0.000  1.000  3.000  0.000  0.500  2.000
+-0.500  1.000  1.000  3.000  1.000  0.000  3.000
+-0.500  2.000  2.000  3.000  0.500  2.333  0.000
+
+
+% avmap -f list
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+Map id: Average-map
+3
+    36     41     47
+
+ 0.000  0.143  1.200
+ 0.000  0.000  3.000
+ 2.200  2.600  0.000
+
+If you want to save the output you just use your systems redirection
+facilities (usually ">").  So the command
+
+% avmap tun01 tun02 tun03 > tun123.avr
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+
+puts the map in the file tun123.avr.  Note that the obnoxious
+copyright notice does not go to the file with the map (it is
+still displayed to the screen), so the file tun123.avr is in
+fact a file in the format accepted by distrat, iodeg, cmtran
+and avmap as a type 1 or type 2 map file.  [Note not all maps
+output by avmap are legal input to other programs.  See the
+section on empty maps below.]
+
+For a list of options use the -h option
+
+% avmap -h
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+Usage: C:\BIN\AVMAP.EXE [options] file [files]
+   or  C:\BIN\AVMAP.EXE [options] -f listfile
+	files 1 and 2 contain maps
+	listfile contains a list of files
+	Options:
+		-h	display this message
+		-v	set verbose flag [off]
+		-p num	set cutoff percent to num [50]
+		-n name	set map id to name [Average-map]
+
+[Yikes! Now I see that this usage message does not correctly
+descibe the program.  I will try to fix that, but the current
+one above has some errors in it.]
+
+The two most important options are the -n option which
+allows you to give the created map an id distinct
+from "Average-map"
+
+% avmap -n TUN-averages -f list
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+Map id: TUN-averages
+3
+    36     41     47
+
+ 0.000  0.143  1.200
+ 0.000  0.000  3.000
+ 2.200  2.600  0.000
+
+
+Naturally you should make the name something which is a legel
+string for a map id (see the file format section of the distrat
+documentation).  Also, if you use characters that may mean something
+special to your command interperter, then you will need to quote
+the name or otherwise escape the special meanings.
+
+The other important is -p which sets the minimum percentage of
+maps that a node must be in to appear in average.  The default
+is 50.  By using a lower percentation we can get larger maps.
+
+% avmap -p40 -flist
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+Map id: Average-map
+4
+    27     36     41     47
+
+ 0.000  1.800  1.000  1.750
+ 2.600  0.000  0.143  1.200
+ 0.750  0.000  0.000  3.000
+ 1.500  2.200  2.600  0.000
+
+
+EMPTY MAPS
+
+In one special case the output of avmap may not be readable as a
+proper map form other programs to read.  That is when there
+are no nodes in the output map.  We can construct such a map by setting
+an impossibly high cutoff or by using input with no common nodes
+
+% avmap -p110 tun01 tun02
+Average map. Copyright 1992, 1994 by Jeff Goldberg
+Map id: Average-map
+0
+
+avmap warning: result is empty
+
+The warning message will, like the obnoxious copyright notice, appear
+on the screen and will not be redirected via ">" output redirects.
+
+The resulting file will not be readable by other programs for the
+purpose of averages and so on, since, although it does meet the
+definition of a causal map (no one has actually said the the set of
+nodes must be nonempty), it never occured to me until I found an
+error in avmap when this situation was encountered.
+
+The definition of the map files does not currently accomodate this.
+Although I can fix that in a few seconds, I would need to test that
+all other programs cope with empty maps correctly, and that will take
+some time.  For those who are interested in the matter, the reason
+that it will take some time is that the programs routinely ask for
+memory from the system while running in a, but only ask for what they
+need for the thing they will store.  So if part of the program needs
+to make, lets say, a copy of the list of nodes in a map, then it will
+ask for enough memory to store no more and no less then the number of
+nodes.  If the number of nodes is zero, then it will ask for a zero
+amount of memory.  The result of asking for a zero amount of memory
+and for not getting the memory that you ask for are the same.  So,
+After the program asks, it checks to see if it did get memory.  If it
+didn't it stops, assuming some system error or that the system has
+run out of memory.  Each of these places in the program will need to
+be checked and fixed to deal with empty maps.  Damn, I wish that I
+had thought about empty maps from the begining.
+
+
+BUGS
+
+The 1992 version of the program had a number of known bugs.  The
+current version is a complete rewrite (made today, Augest 14, 1994)
+and must have a number of unknown bugs.  Please be careful with
+these.

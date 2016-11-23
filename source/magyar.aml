@@ -1,0 +1,38 @@
+Magyar
+igen
+nem
+Az elmentett file (%s) nem nyithat\242 meg\n
+Az ultols\242 p\240rosr\242l inform\240ci\242 nem \240ll rendelkez\202re a file-b\242l\n
+Az elmetett file be van olvasva: A k\202rd\202s a k\224vetkez\223 p\240r %d\n
+Mi lesz az \243j map-file neve? 
+M\240r van olyan file. fel\201lirni? [i/n] 
+Hiba a %s file nyitn\240ssal\n
+Mennyi csom\242pont lesz a k\202pen? 
+Nagyobb kell mint 2\n
+Nem kapott mem\242ri\240t a map-hez\n
+Mi lesz a \"Map-id\"-je? 
+Nem kapott mem\242ri\240t a map id-hez\n
+G\202pelje be a csom\242pontokat. [nyomja a <return>-t mindegyik ut\240n]\n
+Csom\242pont %s: 
+Csom\242pont %d t\243l nagy (vagy t\243l kicsi)\n
+M\240r van egy %d-es csom\242pont\n
+File %s fel van irva\n
+Haszn\240lat:\naskmap [-h] [-L nyelv] [-r elmentett-file]\n
+\t-h\t\t\tIrja ki ezt az \201zenetet\n
+\t-r elmentett-file\tBeolvas r\202szleges map-et\n
+Probl\202ma a Ross m\240trix-szal\n
+%d. p\240r: %d%% k\202sz\n
+Befoly\240s %d csom\242pontr\242l a %d csom\242pontra [-3-t\242l 3-ig]: 
+Kil\202p: Elmenteni el\223bb? [i/n]? 
+Kil\202p\202s\n
+%s nem adhat\242 sz\240m: \243j bevitel\n
+Rossz t\202nyez\223 sz\240m (%d)\n
+Elment map-et a file askmap.tmp-be\n
+Hiba: Nem tudott irni az elment\223 file-ba.  Sajnos!\n
+\t-L nyelv\t\tEzzen a nyelven lesznek \201zenetek\n
+Hiba: Nem kapott mem\242ri\240t a csom\242pontokhoz.\n
+Hiba: Nem kapott mem\242ri\240t a csom\242ponthoz\n
+Szavak a %d-es/as csom\242ponthoz? (<RETURN> ha nincs) 
+\"%s\" ---> \"%s\"\n
+\t-C\t\t\tIrja ki engedely inform\240ci\242t\n
+ISMERETLEN

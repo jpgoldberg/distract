@@ -1,0 +1,75 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+		The iodeg program
+
+Usage and input files are as will other programs in the distrat/askmap
+package.  So run it with the -h option of a list of command line
+options, etc.  If you don't know how these work, read the
+documentation for distrat which contains general information
+about commands and file forms.
+
+% iodeg -h
+CM IOdeg. Copyright 1994 by Jeff Goldberg
+Usage: C:\BIN\IODEG.EXE [options] file
+   or  C:\BIN\IODEG.EXE [options] -f listfile
+	files contains a map
+	listfile contains a list of files
+	Options:
+		-h	display this message
+		-v	set verbose flag [off]
+		-d num	set debug flag to num [0]
+		-n num	set max. distinct nodes [300]
+		-m num	set max. maps in list [200]
+		-t num	set type of map file [1]
+		-A num	set alpha to num [1]
+
+Generally, the output of iodeg looks like:
+
+In-degrees for map TUN-0792-01:
+		    2:     7  (+17.000)
+		    6:     9  (+23.000)
+		   13:     6  (+15.000)
+		   27:     5  (+13.000)
+		   36:     9  (+22.000)
+		   37:     9  (+26.000)
+		   41:     8  (+18.000)
+		   43:     3  (+6.000)
+		   47:     7  (+16.000)
+		   49:     3  (+7.000)
+Out-degrees for map TUN-0792-01
+		    2:     6  (+12.000)
+		    6:     8  (+23.000)
+		   13:     7  (+17.000)
+		   27:     6  (+13.000)
+		   36:     6  (+15.000)
+		   37:     6  (+16.000)
+		   41:     7  (+19.000)
+		   43:     6  (+16.000)
+		   47:     7  (+17.000)
+		   49:     7  (+15.000)
+
+The first column is the node number, the second is the in-degree
+or out-degree of the node (number of arcs leading to it, number
+of arcs leading from it).  The third number is the sum of the
+absolute values of the weights of the arcs leading in (or out).
+
+If you want this same information, but sorted or arranged differently
+it is time to learn at least some awk, and maybe some sed.  Or
+edit the output by hand.

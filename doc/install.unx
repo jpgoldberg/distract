@@ -1,0 +1,141 @@
+  *** THIS DOCUMENTATION IS PART OF THE distrat/askmap PACKAGE
+  *** PACKAGE OF PROGRAMS OF CAUSE MAP ANALYSIS.  YOU SHOULD
+  *** READ THE FILE "DISCLAIMER" BEFORE USING ANYTHING HERE.
+  ***
+  *** YOU MUST READ THE FILE "LICENSE" BEFORE DISTRIBUTING ANY
+  *** OF THE FILES OR DERIVIATIVES OF THEM.  YOU SHOULD
+  *** NOT HAVE PAID FOR THIS SOFTWARE OR SOFTWARE INCORPERATING
+  *** IT BEYOND MEDIA AND HANDLING CHARGES.
+  (c) 1994, Jeff Goldberg
+
+	INSTALLING the distrat/avmap program on DOS
+
+
+MAKING THE EXECUTABLES
+
+You will need to compile the programs before you can run
+them.
+
+All source files are stored in the source directory.  In that
+directory there will be a number of Makefiles (makefile.tcc and
+makefile.unx) are the two that exist as of this writing.
+
+The makefile makefile.unx works on FreeBSD version 1 with
+no modifications.  It will also be tested on SCO Unix 3.4
+with gcc.
+
+Before dealing with the makefiles, see if it works as is.
+copy Makefile.unx to Makefile
+
+% cp Makefile.unx Makefile
+
+and then, make it all.
+
+% make all
+
+And all will be made.  You may get compiler warnings about
+arguments not used in particular functions, and function main not
+returning a value to caller.  Neither are a problem.  The
+former is because there are some "dummy" functions in the
+source which do nothing, but are left as hooks for further
+and local developments.  The latter is because some checkers
+don't know that control is never returned after a call to exit().
+
+You may have to make some changes in Makefile.  In particular
+you may want some forms of optimization, or specifications of
+machine types, etc.  Also, depending on particular facts about
+your C libraries you may need to change some flags.
+
+If you are using another compiler with different command line
+syntax, you will have to build your own makefile using the
+once provided as a sample.  If you do build a succesful make
+file, please try send it to me, so that I can include it
+(giving you proper credit) in futher releases.
+
+The most particular ways that C compilers seem to differ is that
+older ones take the value returned by malloc() as being of type
+pointer to character (char *), while ANSI has a new type specifically
+for dealing with something that could be a pointer to anything as
+(void *).  If you are using an older C compiler, then you might have
+to set the predefine ANYCHARPTR by uncommenting a line in the
+makefile.
+
+However, if your C compiler doesn't like ANSI, then you won't get far
+with this.  If you really don't have access to an ANSI compiler and
+really need to use these programs, I will try to cook-up a
+traditional (K&R) C version for you.
+
+Some libraries have the function rint() (round to integer) and others
+don't.  If you don't have it, then you will get an error message when
+trying to compile (link actually) drsort and avmap which says
+something about an unresolved external _rint.  If this happens to
+you, then you will need to uncomment the appropriate line in the
+makefile.
+
+Again with drsort and avmap: If your compiler or libraries are set up
+so that you need to explicitly load math libraries (like on must unix
+systems) you should have a like like
+MATHLIB=-lm
+
+in the makefile.  IF you shouldn't explicitly request the loading of
+math libararies (tcc for example), then you should have
+MATHLIB=
+in the makefile.
+
+After reading the top portion of the makefile, you should be able to
+perform the modifications that you need to.  So, after editing the
+makefile
+
+% make all
+
+If you still have problems, let me know (this is not a promise to
+help, but I might), and also ask local people who are familier with
+using make and C.
+
+
+INSTALLING THE EXECUTABLES
+
+Once you have made everything (or those programs you wish to use) you
+should put them some place in your path.  On Unix typical places may
+be /usr/local/bin if you have the permissions and want to make these
+available in a public directory.  Or you could put them in your own
+bin ${HOME}/bin.  Anyone else wishing to use the programs could put
+your bin in their path.  Depending on your shell you may have to
+issue the command 
+
+% rehash
+
+just after installing the programs.  You won't have to do that again.
+
+The current version of askmap requires that that .aml files appear in
+the the same directory that you run askmap from.  (That is, your
+working directory, not askmap's.)  So, you should store the .aml
+files in a place where you can easily copy them from (${HOME}/lib for
+example).
+
+
+THE OTHER FILES
+
+Keep the documentation.  Even if most of the documentation is
+irrelevent for your needs, your needs might change.
+
+Keep the source files.  There are two reasons for this.  The first is
+the merely legel one that to comply with the license agreement, you
+must make the source files available to anyone you distribute the
+programs to if they request it.  This is part of your legal
+responsibility if you distribute the programs.  Reread the file
+LISENCE if you don't understand the details or the rational.
+
+The second reason to keep the sources is that maybe years from now
+you will need some feature that might easily be added to the program,
+but isn't there now.  Or you will need the programs to behave a
+little bit differently.  Since there is no promise on the part of
+either the author or the person who gave you these programs (unless
+they stated so explicitly) to maintain or improve these programs, you
+may have to do so yourself.  Even if you are not a programmer, you
+must certainly know someone who is.
+
+So once you have put the executables where you want them, have looked
+at the documentation, and have stored away the documentation and the
+sources you are ready to use them.
+

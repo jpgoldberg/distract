@@ -1,0 +1,86 @@
+# The files COPYING and DISCLAIM contain important information
+# regarding your rights concerning these files.  Read them.
+# 
+# This directory contains the source files for building the
+# distrat/askmap group of programs.
+# 
+# For installation instructions, read the installation files in
+# the doc directory.
+# 
+# The files are
+# 
+#  	readme.src		This file
+# 
+# 	Makefile.tcc		Makefile configured for Turbu C (DOS)
+# 	Makefile.unx		Makefile configured for cc (Unix)
+# 	Makefile.gcc		Makefile configured for gcc (Unix)
+# 	Makefile.djg		Makefile configured for gcc (DOS)
+#
+#       install.mak		Instructions compiling and using the
+#				makefiles.
+# 
+# 	magyar.aml		Hungarian texts for askmap (see
+# 				askmap documentation).
+# 
+# 	english.aml		English texts for askmap (see askmap
+# 				documentation).
+# 
+# 	distrat.h		C header file with definitions common
+# 				to almost everything here.
+# 
+# 	lang.h			C header file for askmap's language
+# 				routines.
+# 
+# 				C files needed for compilation.  See
+# 				the Makefile to know which which programs
+# 				depend on which files.
+# 	amlang.c
+# 	askmap.c    
+# 	avmap.c
+# 	cmtran.c
+# 	density.c
+# 	distrat.c
+# 	drsort.c
+# 	iodeg.c
+# 	mapcache.c
+# 	matutil.c
+# 	readmap.c
+# 	ross.c
+# 	rossify.c
+# 	version.c
+# 	writemap.c
+# 
+# 	getopt.c		Routine provided if your system doesn't
+# 				already provide a getopt call.
+#	tailor.h		Comes with getopt.c
+# 
+# 
+amlang.c
+askmap.c
+avmap.c
+cmtran.c
+density.c
+distrat.c
+distrat.h
+drsort.c
+english.aml
+getopt.c
+iodeg.c
+lang.h
+magyar.aml
+Makefile.djg
+Makefile.dst
+Makefile.gcc
+Makefile.tcc
+Makefile.unx
+install.mak
+mapcache.c
+matutil.c
+readmap.c
+readme.src
+ross.c
+rossify.c
+version.c
+writemap.c
+getopt.h
+tailor.h

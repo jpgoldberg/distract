@@ -1,0 +1,31 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+		The cmtran program
+
+The cmtran program is not usable as is.  It is intended to act as
+a skelaton for programs to write programs which translate maps
+of one form into maps of another.  If you are a programmer, then
+please read the comments and code in cmtran.c, readmap.c, and
+writemap.c.
+
+BUGS, LIMITS
+
+Currently there are no hooks to other information which may be
+desired in a map.  I plan to fix this ``any day now.''

@@ -1,0 +1,38 @@
+English
+yes
+no
+Can't open recover file %s\n
+Couldn't get last pair info from file\n
+Old map read in: will query from pair %d\n
+What will be the map file's name? 
+Such a file exists. Overwrite it? [y/n] 
+Error opening file %s\n
+Number of nodes in the map? 
+Must be greater than 2\n
+Couldn't get memory for map\n
+Enter the map-id:  
+Couldn't get memory for map id!\n
+Input nodes, [type return after each node]\n
+Node %s: 
+Node %d out of range.  Try again\n
+%d already been selected.  Try again\n
+Wrote map to file %s\n
+Usage:\naskmap [-h] [-L language] [-r recfile]\n
+\t-h\t\tDisplay this message\n
+\t-r recfile\tRead (recover) partially completed map\n
+Error generating Ross array\n
+%dth pair %d%% done\n
+Influence of node %d on %d [-3 to 3]: 
+Quit: Save state first? [y/n]? 
+Quitting\n
+Not a valid number (%s): re-enter\n
+Bad number of constructs (%d)\n
+Saving map in file askmap.tmp\n
+Error: couldn't open write to save file.  Tough!\n
+\t-L language\tUse language for most user interactions\n
+Error: couldn't get memory for node names.  Exiting\n
+Error: couldn't get memory for node name.  Exiting\n
+Enter text for node %d (<RETURN> for none): 
+\"%s\" ---> \"%s\"\n
+\t-C\t\tDisplay License information\n
+UNKNOWN

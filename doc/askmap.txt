@@ -1,0 +1,490 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+Askmap is the newest of the all of the major programs and should
+certainly be considered a `pre-release' version.  There are known
+bugs and limitations and there are bound to a number of unknown bugs.
+
+Warning:
+   The program has only been used in the field on less then 30 times,
+   and then by a person very familiar with it.  None-the-less, it is a
+   great labor saving device, but it is recommended that sessions when
+   it is used be voice recorded in case of an error leading to the lose
+   of data.
+
+The askmap program in an interactive program which prompts for the
+association matrix part of a causal map.  You should be familiar
+with the map elicitation portion of Mark\'oczy and Goldberg (1995)
+to understand the meaning of many of the things.
+
+For some points of detail it is useful to familiarize yourself with
+the portion of the distrat documentation which describes the file
+format for causal maps, since askmap writes maps in that format.
+
+The askmap program is designed to be used by the researcher eliciting
+the causal maps in a highly structured interview.  It is not designed
+for self-administration, since it lacks sufficient help messages,
+error checking, or instructions to the user to be employed that way.
+These things can always be added, but so far the need for
+self-administered use has not arisen.
+
+Calling askmap:
+
+As with other programs in this package, the command line syntax is
+Unix style.  Options (switches) begin with a `-' character.  Some
+options require arguments, which must immediately follow (possibly
+separated by spaces) the option.  As with all of these program the
+`h' option will display a message showing the command line syntax.
+
+C:\DISTRAT\DOC>askmap -h
+askmap: Copyright Jeff Goldberg 1993
+Pre-release draft version  Do not distribute
+Usage:
+askmap [-h] [-r recfile] [-L language]
+	-h		Display this message
+	-r recfile	Read (recover) partially completed map
+	-L language	Use language for most user interactions
+
+
+			RUNNING ASKMAP
+
+To start the program just call askmap.  Use the L option is used
+to specify use of a language other than the built-in one (English) for
+the program interactions.  See section on Language Choice below.
+The r option is used to read in a partially completed map created
+by askmap.  See the section on Quitting and Starting Askmap with
+Partially Completed Maps below.
+
+When you start askmap, it will ask you for a file name for
+the map.  You can use any name which is a legal filename on
+your system.  Let's say we wish to put our map in a file
+called "test.map".
+
+
+C>askmap
+askmap: Copyright Jeff Goldberg 1993
+Pre-release draft version.
+What will be the map file's name? test.map
+
+[Then it will ask for the number of nodes (constructs) in
+the map.  For our example, we will pick a very small number (4)]
+
+Number of nodes in the map? 4
+
+[It will then ask for the string to be used as the map id inside the
+map file (see the section on on file format in the distrat
+documentation)]
+
+Enter the map-id:  Test-1-demo
+
+[You will then be prompted for the nodes (constructs).  You
+should give the node (construct) number for each of the nodes
+in the map.]
+
+Input nodes, [type return after each node]
+Node A: 6
+
+[Next you will be prompted for a brief text to use as a reminder
+of what the construct (in this case 6) is about.]
+
+Enter text for node 6 (<RETURN> for none): long term profit
+
+[This process will be repeated until you have specified all of
+the nodes in the map (in this case 4)]
+
+Node B: 31
+Enter text for node 31 (<RETURN> for none): short term profit
+Node C: 20
+Enter text for node 20 (<RETURN> for none): Compition
+Node D: 35
+Enter text for node 35 (<RETURN> for none): brand recognition
+
+[After all of the nodes have been entered you will be prompted for
+a number representing the influence of one thing on another.
+The prompts will come in two forms: one showing the text, and the
+other showing the node numbers.  Internally the program works
+with and stores only node numbers.]
+
+1th pair 0% done
+"long term profit" ---> "short term profit"
+Influence of node 6 on 31 [-3 to 3]: 0
+"short term profit" ---> "long term profit"
+Influence of node 31 on 6 [-3 to 3]: 3
+
+[before the program asks the next pair, it will attempt to
+clear the screen so that one cannot review previous responses
+while considering a question]
+
+2th pair 16% done
+"brand recognition" ---> "long term profit"
+Influence of node 35 on 6 [-3 to 3]: 2
+"long term profit" ---> "brand recognition"
+Influence of node 6 on 35 [-3 to 3]: 1
+
+[note below that any spelling or typing errors are preserved throughout
+the program, but since the node numbers and not the text of the
+construct is stored in the file, there should be no problem]
+
+3th pair 33% done
+"Compition" ---> "short term profit"
+Influence of node 20 on 31 [-3 to 3]: -2
+"short term profit" ---> "Compition"
+Influence of node 31 on 20 [-3 to 3]: 0
+
+
+4th pair 50% done
+"long term profit" ---> "Compition"
+Influence of node 6 on 20 [-3 to 3]: -2
+"Compition" ---> "long term profit"
+Influence of node 20 on 6 [-3 to 3]: -2
+
+
+5th pair 66% done
+"short term profit" ---> "brand recognition"
+Influence of node 31 on 35 [-3 to 3]: 1
+"brand recognition" ---> "short term profit"
+Influence of node 35 on 31 [-3 to 3]: 2
+
+
+6th pair 83% done
+"Compition" ---> "brand recognition"
+Influence of node 20 on 35 [-3 to 3]: -3
+"brand recognition" ---> "Compition"
+Influence of node 35 on 20 [-3 to 3]: -2
+
+[When you have entered the last pair the program will write the
+file, and exit]
+
+Wrote map to file test.map
+
+C:\DISTRAT\DOC>
+
+That demonstrated a simple run through the program.  The file created,
+test.map, looks like this.
+
+Map id: Test-1-demo
+4
+ 6 31 20 35
+
+ 0  0 -2  1
+ 3  0  0  1
+-2 -2  0 -3
+ 2  2 -2  0
+
+Again, you are referred to the section on file formats the distrat
+documentation.  This file can now be used by distrat.
+
+		USING A DIFFERENT LANGUAGE
+
+The messages which askmap writes to the user can appear in any language
+for which there is a LANGUAGE.aml file, whee LANGUAGE is the name
+of the language.  With this distribution, an .aml file exists
+for english and magyar (Hungarian).  The file, english.aml, is
+never needed since English responses are built into the
+program, but is provided as a basis for translation if you wish
+to create your own .aml file.
+
+One would call askmap to run in Hungarian with the following
+command:
+
+c:>askmap -L magyar
+
+NOTE: on the current implementation, the magyar.aml file must be copied
+to the directory you call askmap from.  This is an unfortunate limitation,
+but it will remain until the next release.
+
+This documentation will not include portions of a sample run in
+Hungarian, because that would include some characters which may
+make this file not entirely transportable.  If you wish to
+see a sample run in Hungarian, just try it.  If you can't follow
+instructions in Hungarian, then you probably don't really need it.
+
+	SAVING AND USING PARTIALLY CREATED FILES
+
+It is possible that during the elicitation of a causal map you will
+be forced to stop the process for an unknown amount of time.  The
+program has a mechanism of saving partially created maps, and starting
+over using these at some latter point.
+
+When you are prompted for the first causal relation between a pair of
+elements, you have the option of typing, instead of a number, either
+"q" (quit) or "s" (save).  "s" will save the current state of the
+process to a file called askmap.tmp in the same directory and
+continue.  "q" will ask you whether you wish to save the file before
+quitting.  If you answer positively it will save the state of the map
+in the askmap.tmp file in the current directory before exiting askmap.
+
+Be aware that it will overwrite any information in any existing file
+called askmap.tmp.  This means that if you have stopped eliciting a
+map and saved the partially completed one to askmap.tmp, you should
+rename that file to something that won't get over written.  Use
+the copy or rename commend to do so.
+
+If you have a partially completed map file, which you have at some
+point saved to a file called "saved.map", then when you are ready to
+complete that map, call askmap with the "-r" option and the file
+name, e.g.,
+
+C> askmap -r saved.map
+
+This should start where you left off, but note that the text
+associated with the nodes will have been forgotten (since they are
+not actually part of the stored maps), and you will have to re-enter
+them (you will be prompted) if you want to use the text in the
+process of eliciting the map.
+
+Below is a small example:
+
+C:\DISTRAT\DOC>askmap
+askmap: Copyright Jeff Goldberg 1993
+Pre-release draft version.
+What will be the map file's name? test.map
+Such a file exists. Overwrite it? [y/n] y
+Number of nodes in the map? 3
+Enter the map-id:  Test-Demo-2
+Input nodes, [type return after each node]
+Node A: 6
+Enter text for node 6 (<RETURN> for none): long term profit
+Node B: 31
+Enter text for node 31 (<RETURN> for none): short term profit
+Node C: 20
+Enter text for node 20 (<RETURN> for none): Competition on market
+1th pair 0% done
+"long term profit" ---> "short term profit"
+Influence of node 6 on 31 [-3 to 3]: 0
+"short term profit" ---> "long term profit"
+Influence of node 31 on 6 [-3 to 3]: 2
+
+2th pair 33% done
+"Competition on market" ---> "long term profit"
+Influence of node 20 on 6 [-3 to 3]: q
+Quit: Save state first? [y/n]? y
+Saving map in file askmap.tmp
+Quitting
+
+C:\DISTRAT\DOC>ren askmap.tmp saved.map
+
+C:\DISTRAT\DOC>askmap -r saved.map
+askmap: Copyright Jeff Goldberg 1993
+Pre-release draft version.
+Old map read in: will query from pair 1
+Enter text for node 6 (<RETURN> for none): long
+Enter text for node 31 (<RETURN> for none): short
+Enter text for node 20 (<RETURN> for none): comp
+What will be the map file's name? test.map
+Such a file exists. Overwrite it? [y/n] y
+2th pair 33% done
+"comp" ---> "long"
+Influence of node 20 on 6 [-3 to 3]: -3
+"long" ---> "comp"
+Influence of node 6 on 20 [-3 to 3]: -1
+
+
+3th pair 66% done
+"short" ---> "comp"
+Influence of node 31 on 20 [-3 to 3]: -1
+"comp" ---> "short"
+Influence of node 20 on 31 [-3 to 3]: -3
+
+Wrote map to file test.map
+
+Under very rare circumstances you could end up with a bit more work
+to do then just this to restart a partially completed map.  If you
+have to stop for some reason after you have answered one half of a
+pair of questions, but not the other you are in a bit of trouble.
+
+For example, answer "A" ---> "B", but have still to answer "B" --->"A"
+then the program will not let you quit there.  You will have to
+provide some legal response (a number) to the query, and then quit on
+the next pair of nodes.  If you had to supply a false answer to that
+question there are two options left open to you.  First you can later
+get the proper answer from the subject for that question and edit it
+into the file by hand when all else is done (see documentation on
+file format in the documentation for distrat).  The second option is
+the edit the last line of the saved file which has a special form
+
+AM-Recover-from-pair: 2
+
+Which tells askmap how far you got before saving this file (or where
+to restart from).  Reduce the number at the end of the line by 1.  Do
+not change anything else.  This way, when you call askmap -r with
+that file, it will repeat the last pair it had (thought) it had done.
+
+	HOW TO CREATE A .AML FILE
+
+You only need to read this section if you want to create a file
+allowing askmap to run using languages not currently provided.
+
+The .aml files can be created without knowledge of the C programming
+language, but it does help.  There are 36 lines of specialized text
+in the .aml files, and each line corresponds to something the program
+might use for output or input.  The first few lines of the english.aml
+look like this:
+
+English
+yes
+no
+Can't open recover file %s\n
+Couldn't get last pair info from file\n
+Old map read in: will query from pair %d\n
+What will be the map file's name? 
+Such a file exists. Overwrite it? [y/n] 
+
+The first line just contains the name of the language.
+The second line contains the word for a positive answer. It is important
+   that the first letter of this word is distinct from the first letter
+   of the word for a negative response.  If the language you wish to
+   translate to uses the same character at the beginning of its yes word
+   and its no word, you will have to choose alternative words.  Keep
+   those alternatives in mind when you translate lines which prompt for
+   "yes" or "no" answers.  (or their first letter)
+The third line contains the word for "no"
+Almost all of the other lines contain messages which could be
+   displayed by askmap at some point.  (Many of these you haven't
+   seen since they represent special cases or error conditions.
+   All of these lines should either end with a "\n" or be prompting
+   for input.  (the "\n" means do a carriage return/line feed).
+   For the ones that prompt of input, leave a blank space at the
+   end of the line.  For the line that end with "\n", do not leave
+   a blank space!
+
+   Note that some lines (like the fourth one) contains a "%s".
+   A "%s" in the string will be subsituted by some word or name
+   or something like that when askmap is running.  Make sure to preserve
+   those in your translation.  A "%d" in the string will be
+   substituted by a number when the program is run.  Make
+   sure to leave all "%d"s in the file.
+
+A few more sample lines will be given, but these are out of order,
+   and many lines have been skipped.  Basically, some of the difficult
+   cases are listed below.
+
+Usage:\naskmap [-h] [-L language] [-r recfile]\n
+
+ Note that there are two "\n"'s in that line.  That
+    means it will print return/linefeed before "askmap" and
+    again at the end of the message
+
+\t-h\t\tDisplay this message\n
+
+ The "\t"  works as a tab character.  You will probably have to
+    experiment a bit to get the right number of tabs, and in
+    the right places for those message (just the usage messages) which
+    use them.  If you use the -h option to askmap, you will see
+    what these are supposed to look like.
+
+Influence of node %d on %d [-3 to 3]: 
+
+ This line has two "%d"s on it.  It is important that in any translation
+   the first "%d" will correspond to the first one in the English text.
+   A translation like: "how is %d influenced by %d ? [-3 to 3]: " would
+   be a very big mistake since it switches the roles of the %d, but
+   askmap, not knowing any human language, will not know to switch
+   them as well.
+
+%dth pair %d%% done\n
+
+ This line has two "%d"s in it and one "%%".  The "%%" just provides
+   the "%" symbol in output.  This is the line reponsible for
+   output messages like "8th pair 22% done".  Again, be sure to
+   preserve the order of the two "%d"s.
+
+\"%s\" ---> \"%s\"\n
+ This line has two "%s",  and four instances of \" .  The \" means
+   put a double quote character in the output.  This is the line
+   that is responsible for output like:
+      "short term profit" ---> "long term profit"
+   If you are happy with the arrow, you can just use this line the
+   way it is.
+
+UNKNOWN
+
+ At the bottom of the file is a word (not a message or prompt line)
+  for what to write if no text was given with a construct.
+
+ A few examples from magyar.aml will be provided to show how extended
+  ASCII (IS0-?????-850, (sometimes called `latin-I'))
+  characters can be represented.  Basically, characters should be encoded
+  using a backslash "\" followed by three digits representing the
+  OCTAL code for the character you want.  Below the "\242" will be
+  realized as the character corresponding to octal 242 (ie, decimal
+  162, or an lowercase "o" with an acute accent mark on most computers.)
+  It is very important to note that exactly how that character will be
+  displayed when the program runs depends on how that computer is
+  configured!  There is no guarantee that octal 242 will be the
+  character desired on every computer.  If fact, it may be useful
+  to create several files, let's say magyar0.aml for ISO-????-850
+  conformant computers and magyar2.aml for ISO-????-852 conformant
+  computers.  DOS users should see the documentation for the
+  MODE command.
+
+Magyar
+igen
+nem
+Az elmentett file (%s) nem nyithat\242 meg\n
+
+
+         BUGS, LIMITS, THINGS TO DO
+
+There are a number of bugs, limitations, and various things that
+I would like to fix or extend if I get the time.
+
+Regarding Documentation:  Produce a nice versions in terms of printing
+so  that it can be better used.  Correct spelling errors and typos,
+give more structure and possibly and index and table of contents.
+
+Basic running:
+ More error checking of responses to make sure that
+   reasonable responses are given.  (currently, sanity checks on input
+   are sporadic.)
+ The Ross ordering routine is wasteful of memory because
+   I don't have a nice definition of the appropriate function in
+   a computer friendly way.  It should be rewritten entirely.
+ Signal processing (so things like Ctrl-C) would work) should be
+   added.
+ Add option for suppressing page clears between querying pairs.
+
+Language Facilities:
+ Set things up so that the .aml files do not have to be in the
+   current directory.
+ Allow environment variable for language.
+ Switch from octal coding of extended ASCII to decimal.
+ Character-set dependence/assumptions stated in .aml files instead
+   of being built in.
+ Solution to identical first letter for yes and no in some language
+   should be found.
+
+Saving/Restarting:
+ Allow saves (and quits) half way through pairs.
+ Save (and restore) node text information.
+ Check file overwrite for askmap.tmp
+ Allow user specified save file.
+
+		OTHER LIMITS
+
+Askmap can query maps with no more than 181 elements due to
+limits in the Ross ordering routine.  (See documentation for ross)
+
+Most strings (map id, texts which go with nodes, etc) are limited
+in length to 40 characters each.
+
+		BUGS
+
+Sure to be some.
+

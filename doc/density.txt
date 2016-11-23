@@ -1,0 +1,55 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+		The density program
+
+The density of a map is the ratio of arcs to places where there could
+be arcs.  For example, in a 5 node map in which we do not consider
+reflexive arcs (arcs from a node to the same node) there are 10
+places were there could be arcs.  If there are ten arcs within such a
+map, then the map has a density of 1.0, if there are none, then the
+density is 0.0.  If the map has, say, six arcs then the density is
+6/10, or 0.6.
+
+Usage and input files are as will other programs in the
+distrat/askmap package.  So run it with the -h option of a list of
+command line options, etc.  If you don't know how these work, read
+the documentation for distrat which contains general information
+about commands and file forms.
+
+% density -h
+CM Density. Copyright 1993, 1994 by Jeff Goldberg
+Usage: C:\BIN\DENSITY.EXE [options] file
+   or  C:\BIN\DENSITY.EXE [options] -f listfile
+	files contains a map
+	listfile contains a list of files
+	Options:
+		-h	display this message
+		-v	set verbose flag [off]
+		-d num	set debug flag to num [0]
+		-n num	set max. distinct nodes [300]
+		-m num	set max. maps in list [200]
+		-t num	set type of map file [1]
+		-A num	set alpha to num [1]
+
+Output is fairly straight forward:
+% density tun01
+CM Density. Copyright 1993, 1994 by Jeff Goldberg
+Density(TUN-0792-01) = 0.7333
+

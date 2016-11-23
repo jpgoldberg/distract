@@ -1,0 +1,519 @@
+   This documentation is part of the distrat/askmap package
+   of programs for cause map analysis.
+   Copyright (C) 1994, Jeff Goldberg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+INTRODUCTION
+
+The distrat program is one of a small family of programs for
+manipulating  and analyzing causal maps.
+
+distrat calculates the `distance ratio' between causal maps.  For
+definitions of the distance ratio (and of causal maps) see Markoczy
+and Goldberg 1995 (forthcoming in the Journal of Management, Research
+Methods and Analysis Section, April 1995).  The program is well
+suited for the cross comparison a large number of maps and should run
+reasonably well on even the machines slowest machines.
+
+Many sections of the file are relevant for other programs
+in the package as well.  In particular the section on map
+file formats, and, for those not familiar with this style
+of command line interface, the section on the command line.
+
+distrat and associated programs and files is distributed for the
+benefit of the research community, and is to be distributed freely
+In order to protect everyone's right to obtain the programs
+(and source code) freely, the programs are covered by the
+GNU General Public License agreement in the file COPYING.
+Copyright remains with its author, Jeff Goldberg.
+
+THE COMMAND LINE
+
+The specification of distrat command line follows Unix style
+conventions.  In particular, command line options (sometimes called
+switches) are single letters immediately preceded by a `-' character.
+Some options take arguments, which appear after the option spaces may
+appear between the option character and its argument.  All options
+and their arguments must precede any non-option command line
+arguments.  Option characters are case sensitive, `a' is not `A'.
+For example,
+
+   distrat -G 2 -D1 -d3 lw1 lw3
+
+will call distrat to calculate the distance ratios between the maps
+in the file lw1 and lw2.  The argument of the `G' option is 2; the
+argument of the `D' option is 1; and the argument of the `d' option
+is 3.  What these and other options and their arguments mean will be
+discussed below.
+
+There are two forms for calling distrat.  One is as above, where two
+file name arguments are provided, and each file contains a causal map
+(how causal maps are to be specified in the file is subject of a
+later section).  In the other form, the `-f' option is provided and
+its argument is the file name of a file containing a list of other
+file names.  Those other files contain the maps to be compared.  For
+example if you wish to calculate the distance ratio between all of
+the files `map1', `map2', `map3', `map4', `map5', `map6', `map7', and
+`map8' you can create a file that just contains the names of the map
+files, one file name per line.  Suppose the contents of the file
+`maplist' is 
+
+map1
+map2
+map3
+map4
+map5
+map6
+map7
+map8
+
+then you can calculate the distances between the maps in all
+of the map files with a command like:
+
+    distrat -f maplist
+
+Of course all of the other options can also be specified.
+
+    distrat -G2 -d 3 -f maplist
+
+These commands will calculate distance ratios between all pairs of maps
+files listed in the list file.  The order in which distrat will
+perform the comparisons is as follows:
+
+1 and 2, 1 and 3, 1 and 4, ..., 1 and N,
+2 and 3, 2 and 4, 2 and 5, ..., 2 and N,
+...
+N-2 and N-1, N-2 and N
+N-1 and N.
+
+
+The (Almost) Complete List Of Options:
+
+-h	Lists all command line options
+
+-d N	This sets the debug level to N, the higher the value
+	of N, the more internal information the program will
+	provide about what it is doing.  The default value is
+	zero.  (This option may not be supported in future
+	versions.)
+
+-v	Tells the program to run "verbosely" (same as -d3)
+        (This option may not be supported in future versions.)
+  
+-f fname
+	The file "fname" contains a list of file names all to
+	be compared with each other.  If this option is given
+	then no files name arguments may be given on the command
+	line.
+
+-A N	Set alpha to N.  Default 1
+
+-B N	Set beta to N.  Default 3
+
+-G N	Set gamma to N.  Default 1
+
+-D N	Set delta to N.  Default 0
+
+-E N	Set epsilon to N.  Default 2
+
+-n N	Sets the maximum node number to N.  All node numbers
+	in maps must be between 1 and N inclusively.  By
+	default N is 300.
+	See the discussion on optimizing performance for more
+	about this option.
+
+-m N	Sets the maximum number of maps to N.  This is number
+	maximum number of names in the listfile.
+	Default N is 200.
+	This option is only relevant in conjunction with `-f'.
+	See the discussion on optimizing performance for more
+	about this option.
+
+-c N	Sets the maximum number of maps to be remembered
+	when comparing maps from a list (-f).  If there are more
+	than N maps in the list, maps will sometimes have
+	to be "forgotten" and then re-read from the file.
+	The default size of the map cache (N) is 40.
+	This option is only relevant in conjunction with `-f'.
+	See the discussion on optimizing performance for more
+	about this option.
+
+-t N	Sets the format type of the map files to be read in.
+	N must be a number in the range 1--9.  Currently
+	only type 1 is available, and is discussed in the
+	"file formats" section of this document.  The program
+	has been written so that it is easy for other programers
+	to add new file formats.  The notes in the source
+	file "readmap.c" should be consulted for further details.
+	Generally, numbers 7, 8, 9 will be used for file
+	formats specific to your site.  Lower numbers, such as
+	3, 4, 5 and 6 should be used for formats in more
+	general use.
+	Default is 1.
+
+
+FILE FORMATS
+
+The files (both the files containing maps and lists) can be created
+and edited by any ASCII editor such as Emacs, vi, Elvis, dosedit, the
+Norton editor, or any other of scores of such editors.  The files can
+also be edited using text-processors such as Word Perfect making sure
+that they are saved in ASCII or Text form.  In what follows `line
+feed', `new-line', and `return' refers to what is sometimes referred
+by such word processors as `hard returns' or `hard line-feeds'.
+
+The files can also be created by the askmap program described
+elsewhere.
+
+The files containing maps must be in a specific form.  In many
+respects the form is very strict, while in other respects it is very
+flexible.  The best way to understand what the file can be is to look
+at the samples (tun011 tun02 tun03)
+
+The file MUST begin with the string
+
+Map id: 
+
+The capitalization there matters as does the space between the `p'
+and the `i'.  The colon `:' is also required.  This must be followed
+by a space and the an identifier.  For example:
+
+Map id: Joan-Smith-1
+
+Here the identifier is `Joan-Smith-1'.  The identifier must contain
+no spaces or tabs.  The identifier must be less than 32 characters
+long.
+
+The next line of the map file must contain the number nodes in the
+particular map.  So the first few lines of a file may look like
+
+Map id: Joan-Smith-1
+12
+
+After the first two lines the rules about newlines and spaces gets
+much more flexible.  Anytime after the second line where a space,
+newline, or tab character can be, you can use any number (greater
+than zero) of spaces, newlines, tab characters in any combination.
+
+If the number of nodes, as in the example, is 12, then the next 12
+numbers must be the numbers of the nodes in the particular map.
+
+Map id: Joan-Smith-1
+12
+35 22 31 45  2 29 17 19 63 53 54  9
+
+The node numbers can appear in any order, but they order determines
+the layout of the association matrix.  That is, the first node number
+specified will determine what node the first row and column of the
+associate matrix will correspond to.  So far the example we are
+working through, the number in row 1 column 4 of the association
+matrix indicated the influence of node 35 on node 45.  A number in
+row 6 column 2 would indicate the influence of node 29 on node 22.
+
+Following this, the array of influences appears:
+
+Map id: Joan-Smith-1
+12
+35 22 31 45  2 29 17 19 63 53 54  9
+ 0  3  3  1  0  3  3  2  3  3 -1  0
+ 3  0  3  2  0  2  3  2  0  2  2 -2
+ 3  2  0  2  0  3  3  2  2  3 -3  2
+ 2  2  2  0 -2  2  2  0  2  0  0 -1
+ 2  0  0  0  0  2  0  0  2  0  1  1
+ 3  2  2  0  2  0  3  3  2  3  2 -1
+ 3  3  2  0  0  2  0  2  2  0  3  0
+ 2  3  0  0  0  2  3  0  0  3  0  1
+ 0  0  2  0  0  2  2  0  0  3  1  1
+ 3  2  3  0  0  3  0  0  3  0 -1  0
+ 1 -2  1  0  2  1  1 -3  1 -2  0 -1
+ 2  3 -1  0  0  2  0  2  2  0  3  0
+
+Again note that anywhere after the line indicating the construct
+numbers, all tabs, spaces, and newlines are equivalent.  The same map
+could have been written as
+
+Map id: Joan-Smith-1
+12
+35 22 31 45 2 29   17 19   63 53 54 9
+
+0 3   3 1 0 3 3  2 3 3 -1 0 3
+          0 3 2 0 2 3 2 0 2 2 -2 3 2 0 2 0 3 3 2 2
+3 -3 2 2 2 2 0 -2 2
+
+ 2 0 2 0 0 -1 2 0 0 0 0 2 0 0 2 0 1 1 3 2 2 0 2 0
+3 3 2 3 2 -1 3 3 2 0 0 2 0 2 2 0 3 0 2 3 0 0 0 2 3 0 0 3 0 1 0 0 2 0
+0 2 2 0 0 3 1 1 3 2 3 0 0 3 0 0 3 0 -1 0 1 -2 1 0 2 1 1 -3 1 -2 0 -1
+2 3 -1 0 0 2 0 2 2 0 3 0
+
+Although using such a form is not recommended for obvious reasons.
+But what users should note here is that the program may not detect
+errors in your input while it is reading the file.  This lack of
+syntax checking was a deliberate design decision, to make the
+reading of the file quicker.  The other way to make a reading
+quicker would have been to impose an extremely rigid file form
+(as is done with the list file).
+
+Finally, the program allows any material to appear after the map.  So
+maps could look like:
+
+Map id: Joan-Smith-1
+12
+35 22 31 45  2 29 17 19 63 53 54  9
+ 0  3  3  1  0  3  3  2  3  3 -1  0
+ 3  0  3  2  0  2  3  2  0  2  2 -2
+ 3  2  0  2  0  3  3  2  2  3 -3  2
+ 2  2  2  0 -2  2  2  0  2  0  0 -1
+ 2  0  0  0  0  2  0  0  2  0  1  1
+ 3  2  2  0  2  0  3  3  2  3  2 -1
+ 3  3  2  0  0  2  0  2  2  0  3  0
+ 2  3  0  0  0  2  3  0  0  3  0  1
+ 0  0  2  0  0  2  2  0  0  3  1  1
+ 3  2  3  0  0  3  0  0  3  0 -1  0
+ 1 -2  1  0  2  1  1 -3  1 -2  0 -1
+ 2  3 -1  0  0  2  0  2  2  0  3  0
+Nationality: Latvian
+Age: 34
+Job-Title: Marketing Directory
+Node-35: Market share
+Node-22: blah blah blah
+
+The distrat program will not make use of that information, but other
+programs might.  The distrat program will not read beyond the last
+element of the association matrix.  (Note that if something is
+missing from the association matrix (a line, or even a single
+element) the program will try to read past the end of the array.
+It's behavior then is very hard to predict.
+
+One more note about the files:  The influences can be floating point
+numbers:
+
+Map id: test-2
+4
+   3      5      8     12
+   0  -1.54      2   2.40
+2.00   0.00   -3.2      2
+   1  -2.25      0    2.3
+   0   -1.1     -2      0
+
+This will allow files produced by the avmap program to be usable
+by distrat.
+
+Currently, the programs assume that all input maps have at least
+one node.  Maps with zero nodes may lead to bizarre runtime errors
+for many of the programs.  However, the output of avmap may
+be an empty map.  (See the section on empty maps in the
+avmap documentation if you are curious about this.)
+
+The Form Of The List File
+
+The list file (the file used with the -f option) is simply the name
+of each map file.  In the list file, each map file should be on a
+complete line by itself and there should be no blank line, nor
+extraneous spaces in the file.
+
+A list file might look like:
+
+hun01.map
+hun02.map
+hun03.map
+
+The output
+
+distrat writes its output to the screen (standard output) and
+might look like
+
+DR(hun01, hun02) = 0.1234
+DR(hun01, hun03) = 0.5678
+DR(hun02, hun03) = 0.9012
+
+Order Of The Output Information
+
+Note that the the ordering of distance ratios will be an upper right
+corner of a distance matrix.  So if comparing maps 1 through 6 (as
+the order in the list file) then the Nth distance ratio will fit
+according to the following table
+
+   1       2        3        4        5        6
+1	 1st      2nd      3rd       4th      5th
+2                 6th      7th       8th      9th
+3                         10th      11th     12th
+4			            13th     14th			
+5					     15th
+6
+
+Most software packages which input distance data seem to prefer input
+as lower left instead of upper right.  Also, the like to have the
+zero's down the diagonal.
+
+If you wish to sort the output in this way, there are a number
+of things you can do.
+
+One is to use existing sorting tools.  This requires some planning
+ahead, in that it means that the order of the maps in list file
+should match the sorting order of the map id's.  That is, if the map
+in file xxx has the id Jim-Jones and the map in file yyy has the id
+John-Smith, then you can convert the file from an upper right
+triangle by using your sorting program to sort the lines in your
+output file with the primary sort on the second field and the
+secondary sort of the first field.  If your sorting software can't do
+this, it is time to get a new sorting program.
+
+The other is to use the drsort program, which has been designed
+for this purpose.  See the the documentation for drsort.
+
+Saving Your Output
+
+As with any program that writes to standard output (the screen),
+you can save the output by using the " > " redirection on both
+Unix and DOS.
+
+So
+
+   distrat -f maplist > dr.out
+
+would put the distance ratios into the file dr.out
+
+OPTIMIZING PERFORMANCE
+
+You only really need to refer to this section if you have encountered
+or expect to encounter problems with speed and memory.  If all goes
+well you will not need to modify the defaults.
+
+The program is designed to compare a fairly large number of maps and
+of (almost) any size on slow machines with slow disks.  At default
+settings the program can compare 40 small maps (760 distance
+rations) on a 12 MHz 80286 machine with no math coprocessor in a
+little under 55 seconds.  Twenty small (10 by 10) maps (190 distance
+rations) is calculated in under 15 seconds.  A math co-processor,
+faster CPU, faster disk, will all lead to dramatic improvements in
+the time, but the program is still runable without too much
+inconvenience on the slowest machine one is likely to find.
+
+If you wish to compare a large number of maps, and/or if the maps
+are themselves large you may wish to use the -n and -c options.
+
+If you have a fair number of maps, lets say 50, you can improve
+performance dramatically by setting the map cache size to 50.  This
+means that each map will only be read from the disk once and then
+remembered (the program will keep space to remember 50 maps).  If the
+size of the map cache is less then the number of maps to be compared,
+some maps will have to read into the programs memory more than once. 
+
+The improvement due to map caching is most dramatic on machines and
+systems that have slow disks and do not perform their own disk file
+caching (e.g., DOS).  But even on other systems, there is a great
+improvement since the routine which reads in the maps is slow even if
+it doesn't require physical disk operations.  For example with the
+cache size set to 2 (effectively no caching), the same calculation of
+40 maps described above took 3 minutes.  With the map cache set to 20
+(-c 20), it took 85 seconds.  On an 80286 Xenix system, which does
+have file caching, there was a similar, but not quite so dramatic
+improvement.
+
+There are some limits to how large the map cache should be set to.
+Obviously there is no point in setting it larger than the number of
+maps to be read in (if you do, the program will silently use the
+latter number anyway).  Another limitation is the program performs a
+linear search of the map cache to see if a map is stored.  So, if the
+cache is too large, looking for a map within the cache will take some
+time.  The most important limitation is memory.  On systems with a
+large amount of memory available (either virtual or real) this is not
+really a problem, but under DOS with its idiotic limitations this can
+become an issue, especially if there are "resident" programs, or if
+the program is being called from a subshell (from within and editor,
+etc).  Note, this program does not use either extended or expanded
+memory.  If the operating system is too dumb to supply physically
+available memory, then curse Microsoft and not the author of this
+program if you run into memory problems on DOS.
+
+One can save on memory, if it becomes an issue, in a number of ways.
+The program is already fairly efficient with its memory usage, so
+there is not really too much room for savings, but you can slightly
+improve program speed and memory usage by setting the maximum node
+number to the actual maximum node number in the maps.  So, if your
+set of maps uses only 65 nodes altogether, use "-n65" to set the
+maximum node number to 65.  This will make a very slight improvement
+in both speed and memory usage in several places throughout the
+program.  The program already only stores the minimal amount of
+information needed for each map, so the improvement here is small.
+
+If you are comparing a large number of maps, one way to save on
+memory is to use short file names for you map files, since all of the
+file names need to be stored.  It is especially recommended that the
+list file and the map files be in the same directory that you run the
+program from.  Since this will result not only in shorter names, but
+will make file openings much faster.
+
+When comparing very large maps, you can save memory by reducing size
+of the cache.  This will make the program run more slowly if there
+are more maps to be compared than space in the cache, but it can be
+made to run in a space which would otherwise not be large enough.  If
+someone requires the comparison of a substantial number (greater than
+100) of large maps (more than 100 nodes each) on a slow machine (less
+then 20MHz, no floating point chip) then contact the author for
+advice or a `custom' version of the program.  (Whose advice might be that
+you just make a cup of tea while the program is running, or consider
+running the calculations on a faster machine.)
+
+You can save a very small bit of memory by using the -m option to set
+the maximum number of maps to the actual number of maps.  The amount
+of memory saved will very small (typically 4 bytes per each map '-m'
+is reduced by, but in a very tight corner, this is available).
+
+Finally, if you will be comparing more than 100 maps or so, be
+prepared to wait and/or use a faster machine.  If you expect to
+regularly compare more that 200 maps, get in touch with the author of
+program, who may be willing to write a map caching system that is
+more sophisticated than using a linear search through the cache.
+Since the source code is available as well, any competent C
+programmer should be able to make the modifications.
+
+ERROR MESSAGES AND DIAGNOSTICS
+
+Errors may come from a variety of places.  Using unknown options,
+wrong number of arguments, etc.  In addition to usage errors, the
+program makes some limited attempts to report errors in the input files
+if it detects them (which it may not do at all).  Also it may not be
+able to find or open a particular file, often because the name is in
+the wrong form (distrat is fussy about the form of the list file) or
+the file in in the wrong place, or you have put options after a
+nonoption so distrat is treating your option as a file name.  There
+may be error messages about failure to get enough memory.
+
+On these errors the program exits with a non-zero exit status.  The
+list of exit states follows:
+
+	1	Usage Error: problem with the command line
+	2	File opening: Failure when trying to open a file
+			for reading.  Could be an error in the file
+			name or simply the file not found.
+	3	Impossible error:  If you get one of these contact
+			the author immediately, please.
+	4	Node out of range:  Your file specifies a node number
+			that is higher than maximum node number.  See
+			the -n option.  Also a node number < 1 will
+			cause this error.
+	5	The program asked for memory form the operating system
+			but the operating system refused.  (maybe the
+			program should say `please'.)
+	6	Error with input data: Something is amiss in the map
+			file.
+
+If you need more help, please get in touch with Jeff Goldberg at
+goldberg@nytud.hu or Livia Markoczy lm115@eng.cam.ac.uk.  However,
+this does NOT entail a commitment to assist in any way.  However, the
+it would not hurt to ask, and it may help a great deal.
