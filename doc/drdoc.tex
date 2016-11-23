@@ -317,10 +317,10 @@ instead of as hard and fast rules.
   This is not plug and play take you by hand software.  Not only do
   you need to learn what it does (by reading \MG) but how to use it.
   Fortunately, you don't need to read the entire set of instructions.
-  You should read the first bits (this chapter and 
+  You should read the first bits (this chapter and
   parts of chapter~\ref{ch:general}) and then just the parts that you
   need.
- 
+
   Still don't be put off by the length of this documention.
   Review section~\ref{sec:howtoread} to see how to make
   the most use (with the least time) of reading the manual.
@@ -445,14 +445,14 @@ via \path|http://www.cranfield.ac.uk/public/cc/cc047/|, or
 \textsf{4E 33 96 71 1E 98 E7 93  20 E2 48 6D 52 A1 71 E0}.
 
 \subsection{Reaching L\'{\i}via Mark\'oczy}
-L\'{\i}via Mark\'oczy can be reached by email at 
+L\'{\i}via Mark\'oczy can be reached by email at
 \textsf{L.Markoczy@Cranfield.ac.uk}.  Or
 \begin{verse}
 Dr.~L\'{\i}via Mark\'oczy\\ Cranfield School of Management\\
 Cranfield University\\ Wharley End MK43 0AL, UK\\[4pt]
 FAX +44 (0)1234 751-???; Tel: +44 (0)1234 751122
 \end{verse}
-Her PGP key finger print is 
+Her PGP key finger print is
 \textsf{F9 81 94 D7 AE 06 1D C7  5A F6 F1 E2 39 12 7D 8F}
 
 
@@ -652,11 +652,11 @@ with ftp on the Management Archive you use the command "cd" to ftp
 and the directory separator is "/" and not "\".
 
 You will need to change directory to \file{/pub/distrat}.  You can do this in
-stages by 
+stages by
 \begin{alltt}
 ftp> cd pub
 \end{alltt}
-and 
+and
 \begin{alltt}
 ftp> cd distrat
 \end{alltt}
@@ -688,7 +688,7 @@ ftp> get drdist.zip
 
 You leave ftp with the either \prg{quit} or \prg{bye}.  Of course you can
 use the opportunity of your connection to look around and see what
-other good things you may wish to get from the Management Archive. 
+other good things you may wish to get from the Management Archive.
 
 \subsection{Getting the files from Cranfield, UK}\label{sec:cranfield}
 
@@ -720,7 +720,7 @@ site that you are getting the files from than this documentation can.
 
 If you do not need DOS executables, then you will only need the
 source and documentation compressed (tar-ed and gzip-ed) archive
-called something like \file{drdist.tgz}  for 
+called something like \file{drdist.tgz}  for
 ``Distance Ratio Distribution (tar gzip)''
 
 If you need DOS executables you need the file \file{drdist.zip}.
@@ -737,7 +737,7 @@ terms of the GNU software license agreement (Appendix~\ref{app:gnu}\@).
 The shareware program \prg{PKunzip} can be used instead of \prg{unzip}
 if, for some reason, you prefer paying for software instead of getting
 it for free.\footnote{\prg{PKunzip} is an excellent program, but \prg{unzip}
-is better, free, available with source, and works on many platforms.} 
+is better, free, available with source, and works on many platforms.}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -883,7 +883,7 @@ at your site for printing:
 \begin{enumerate}
 
 \item    What Operating system are you using?
-  
+
          MS-Windows and Windows95 are DOS as far as this documentation
 	 is concerned, but the commands listed are still why you type
 	 to a DOS prompt, which you can get at by opening a DOS window.
@@ -907,7 +907,7 @@ at your site for printing:
 
          If you only have a postscript printer, then you can remove
          the .hp file, and if you only have access to a PCL printer
-	 you can remove the .ps file.  
+	 you can remove the .ps file.
 
 \item\label{en:print:name}
          What is the name (port) to print on to get to that printer?
@@ -929,7 +929,7 @@ at your site for printing:
 	 \emph{You will have to substitute
 	 these with the correct values (ports or names)
          for your printer and system.}
-	 
+
 \item	 DOS users may encounter other problems which I can only
 	 half anticipate, since there are too many ways things can
 	 be set up at your end.
@@ -948,7 +948,7 @@ If you did everything as above with unpacking that will be
 \path|C:\DISTRAT\DOC\|.  The command "cd \distrat\doc"
 ought to get you there.
 
-To print to a PCL printer on \file{lpt1:} 
+To print to a PCL printer on \file{lpt1:}
 \begin{alltt}
 C:> copy/b drdoc.hp lpt1:
 \end{alltt}
@@ -956,7 +956,7 @@ Note the `\texttt{/b}' option for the copy command.  This is
 necessary for printing PCL files.  Do \emph{not} use the
 DOS \prg{print} command; it will not work.
 
-To print to a PostScript printer on \file{lpt2:} 
+To print to a PostScript printer on \file{lpt2:}
 \begin{alltt}
 C:> copy drdoc.ps lpt2:
 \end{alltt}
@@ -1033,7 +1033,7 @@ delete the other executables to save space.
 
 \subsection{Installing on Unix}
 
-Make sure that if you get the \file{.zip} file that you use the 
+Make sure that if you get the \file{.zip} file that you use the
 \opt{-a} option to \cmd{unzip} when you unzip the archive, because
 files in that archive have DOS style newlines.  Alternatively, use
 the \file{.tar.gz} which has Unix style newlines in the first place.
@@ -1180,7 +1180,7 @@ the directory exists on the system).  So you might have to
 edit the \file{makefile} for \cmd{make install}.  So either use your
 ``copy'' command to copy the files by hand, or read the next section
 to learn more about \prg{make}.
-  
+
 \subsubsection{Can't find \file{unistd.h}?}
 
 If, when trying to compile on Unix, you get an error about not being able
@@ -1364,16 +1364,16 @@ commands that it calls.  This way you can see how far make got.
     instructions for DOS (section~\ref{sec:dosprobs}).
 
 \item Error type:  blah blah Command not found
-    
+
     If this is something like gcc command not found, then it is likely
     that the named C compiler from the makefile does not exist on
     your system.  The makefile has a section for selecting the compiler.
     You will need to make changes in that section.
-    
+
     If you are on Unix you can safely use "CC=cc".  On DOS you will
     need to know what the name of your compilier is.  You may need to
-    change many things in the DOS version if you are not using tcc.   
-	
+    change many things in the DOS version if you are not using tcc.
+
 \item Error type:  file \file{limits.h} not found
 
     This error might happen during a compile (most likely when
@@ -1830,7 +1830,7 @@ a single space.
 The file \emph{must} begin with the string
 
 \begin{verbatim*}
-Map id: 
+Map id:
 \end{verbatim*}
 
 The capitalization there matters as does the space between the `p'
@@ -1911,7 +1911,7 @@ Map id: Joan-Smith-1
 3 -3 2 2 2 2 0 -2 2
 
  2 0 2 0 0 -1 2 0 0 0 0 2 0 0 2 0 1 1 3 2 2 0 2 0
-3 3 2 3 2 -1 3 3 2 0 0 2 0 2 2 0 3 0 2 3 0 0 0 2 
+3 3 2 3 2 -1 3 3 2 0 0 2 0 2 2 0 3 0 2 3 0 0 0 2
  3 0 0 3 0 1 0 0 2 0 0 2 2 0 0 3 1 1 3 2 3 0 0 3 0 0 3 0 -1
 0 1 -2 1 0 2 1 1 -3 1 -2 0 -1 2 3 -1 0 0 2 0 2 2 0 3 0
 \end{verbatim}
@@ -2050,7 +2050,7 @@ the files \file{map1}, \file{map2}, \file{map3}, \file{map4},
 \file{map5}, \file{map6}, \file{map7}, and
 \file{map8} you can create a file that just contains the names of the map
 files, one file name per line.  Suppose the contents of the file
-\file{maplist} is 
+\file{maplist} is
 \begin{verbatim}
 map1
 map2
@@ -2107,7 +2107,7 @@ Here is an almost complete list of options.
 \item[\texttt{-v}]
 	Tells the program to run ``verbosely'' (same as \verb|-d3|)
         (This option may not be supported in future versions.)
-  
+
 \item[\texttt{-f} \textit{fname}]
 	The file \textit{fname} contains a list of file names all to
 	be compared with each other.  If this option is given
@@ -2160,7 +2160,7 @@ Here is an almost complete list of options.
 \item[\texttt{-t} $N$]
 	Sets the format type of the map files to be read in.
 	$N$ must be a number in the range 1--9.  Currently
-	only type 1 is available, and is discussed in 
+	only type 1 is available, and is discussed in
 	section~\ref{sec:mapfile}.  The program
 	has been written so that it is easy for other programers
 	to add new file formats.  The notes in the source
@@ -2275,7 +2275,7 @@ according to the following table
 1 &     & 1st & 2nd &  3rd &  4th & 5th\\
 2 &     &     & 6th &  7th &  8th & 9th\\
 3 &     &     &     & 10th & 11th & 12th\\
-4 &     &     &     &      & 13th & 14th\\		
+4 &     &     &     &      & 13th & 14th\\
 5 &     &     &     &      &      & 15th\\
 6 &     &     &     &      &      &
 \end{tabular}
@@ -2305,7 +2305,7 @@ in which the files are listed in the \textit{\tt listfile}.
 
 Most software packages which input distance data seem to prefer input
 as lower left instead of upper right.  Also, they like to have the
-zero's down the diagonal.  
+zero's down the diagonal.
 If you wish to sort the output in this way, there are a number
 of things you can do.
 
@@ -2821,7 +2821,7 @@ M = S_r + (S_f + S_p)\times(m^2+m)/2)
 where $S_r$ is the actual size of the program, $S_f$ is the size
 of a floating point unit, and $S_p$ is the size of a memory pointer
 on the machine.
-A typical size of these things on many machines would be for 
+A typical size of these things on many machines would be for
 $S_f$ to equal 4 bytes, and $S_p$ equal 4 bytes and for the size
 of the program, $S_r$, to be about 30 thousand bytes.
 point number to require 4 bytes and for each pointer to require 4
@@ -2905,7 +2905,7 @@ Density(TUN-0792-01) = 0.7333
 The \prg{iodeg} program is used to calculate the \nt{in degrees} and
 \nt{out degrees} for various nodes in a map.
 
-These concepts are defined and used in several cause mapping papers 
+These concepts are defined and used in several cause mapping papers
 \citeaffixed{BougonWeickBinkhorst77,FordHegarty84}{e.g.,}.  In
 addition to the standard senses of these terms, the \prg{iodeg}
 calculates not only the number of arcs to each node, but also
@@ -3129,7 +3129,7 @@ it writes a warning message to the screen.
 The \prg{ross} program simply displays the Ross ordering of on $N$
 elements.  The ordering was developed by \citeasnoun{Ross34}.  It is
 an ordering of pairs of elements such as to maximize the distance
-between pairs involving the same elements. 
+between pairs involving the same elements.
 
 The program, as an independent program, is not needed directly for
 causal map analysis or elicitation.  The basic calculation is needed
@@ -3297,7 +3297,7 @@ is covered only if its contents constitute a work based on the
 Program (independent of having been made by running the Program).
 Whether that is true depends on what the Program does.
 
-\gnuitem 
+\gnuitem
 You may copy and distribute verbatim copies of the Program's
 source code as you receive it, in any medium, provided that you
 conspicuously and appropriately publish on each copy an appropriate
@@ -3309,7 +3309,7 @@ along with the Program.
 You may charge a fee for the physical act of transferring a copy, and
 you may at your option offer warranty protection in exchange for a fee.
 
-\gnuitem 
+\gnuitem
 You may modify your copy or copies of the Program or any portion
 of it, thus forming a work based on the Program, and copy and
 distribute such modifications or work under the terms of Section 1
@@ -3599,5 +3599,5 @@ to influence diagramming software as well.
 
 
 \bibliographystyle{jpgref}
-\bibliography{drdoc,jom}
+\bibliography{distrat}
 \end{document}
