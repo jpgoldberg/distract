@@ -7,7 +7,7 @@
 %
 % The files are
 %
-% 	readme.doc		This file
+% 	README.txt	This file
 %
 % 	install.dos		Instructions (Some DOS specific) for
 % 				installation.  (Out of date)
@@ -71,7 +71,7 @@ install.dos
 install.unx
 iodeg.txt
 list
-readme.doc
+README.txt
 ross.txt
 saved.map
 shortdr.out
