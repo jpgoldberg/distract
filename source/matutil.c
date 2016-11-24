@@ -152,9 +152,9 @@
    int i;
 
    for(i=nrl; i <= nrh; ++i) {
-     free((char *) (m[i]+ncl));
+     free((void *) ((m[i])+ncl));
    }
-   free((char *) (m+nrl));
+   free((void *) (m+nrl));
  }
 
  #if defined (__TURBOC__)
@@ -172,14 +172,14 @@
  #endif
 
  void
- free_imatrix(int *m, int nrl, int nrh, int ncl, int nch)
+ free_imatrix(int **m, int nrl, int nrh, int ncl, int nch)
  {
    int i;
 
    for(i=nrl; i <= nrh; ++i) {
-     free((char *) (m[i]+ncl));
+     free((void *) (m[i]+ncl));
    }
-   free((char *) (m+nrl));
+   free((void *) (m+nrl));
  }
 
  /** use my own strdup **/
