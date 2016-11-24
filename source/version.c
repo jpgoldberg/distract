@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 
-char version[]="version 1.1b";	/* used in all programs */
+char version[]="version 1.2";	/* used in all programs */
 
 
 void
@@ -34,18 +34,18 @@ License(FILE *fp)
     fputs(" the License, or\n", fp);
     fputs("(at your option) any later version.\n\n", fp);
 
-    
+
     fputs("This program is distributed in the hope that", fp);
-    fputs(" it will be useful,\n", fp);    
+    fputs(" it will be useful,\n", fp);
     fputs("but WITHOUT ANY WARRANTY; without even the", fp);
-    fputs(" implied warranty of\n", fp);    
+    fputs(" implied warranty of\n", fp);
     fputs("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.", fp);
-    fputs("  See the\n", fp);    
+    fputs("  See the\n", fp);
     fputs("GNU General Public License for more details.\n\n", fp);
 
-    
+
     fputs("You should have received a copy of the GNU General", fp);
-    fputs(" Public License\n", fp);    
+    fputs(" Public License\n", fp);
     fputs("along with this program; if not, write to", fp);
     fputs(" the Free Software\nFoundation,", fp);
     fputs(" Inc., 675 Mass Ave, Cambridge, MA 02139, USA.\n\n", fp);
