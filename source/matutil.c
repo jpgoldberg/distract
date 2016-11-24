@@ -80,115 +80,116 @@
 
 /*   I have also added mystrdup to mimic strdup, which doesn't always
  *   exist
- */                                              
-   
-#include <stdio.h>
-#include <stdlib.h>
+ */
 
-float *vector(int nl, int nh)
-{
-    float *v;
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
 
-    v= (float *) malloc((unsigned) (nh-nl+1)*sizeof(float));
-    if (v == (float *) NULL) {
-	fprintf(stderr, "Couldn't get memory in vector()\n");
-	exit(1);
-    }
-    return(v-nl);
-}
+ float *vector(int nl, int nh)
+ {
+   float *v;
 
-int *ivector(int nl, int nh)
-{
-    int *v;
+   v= (float *) malloc((unsigned) (nh-nl+1)*sizeof(float));
+   if (v == (float *) NULL) {
+     fprintf(stderr, "Couldn't get memory in vector()\n");
+     exit(1);
+   }
+   return(v-nl);
+ }
 
-    v= (int *) malloc((unsigned) (nh-nl+1)*sizeof(int));
-    if (v == (int *) NULL) {
-	fprintf(stderr, "Couldn't get memory in ivector()\n");
-	exit(1);
-    }
-    return(v-nl);
-}
+ int *ivector(int nl, int nh)
+ {
+   int *v;
 
-float **matrix(int nrl, int nrh, int ncl, int nch)
-{
-    int i;
-    float **m;
+   v= (int *) malloc((unsigned) (nh-nl+1)*sizeof(int));
+   if (v == (int *) NULL) {
+     fprintf(stderr, "Couldn't get memory in ivector()\n");
+     exit(1);
+   }
+   return(v-nl);
+ }
 
-    m= (float **) malloc((unsigned) (nrh-nrl+1)*sizeof(float *));
-    if (m == (float **) NULL) {
-	fprintf(stderr, "Couldn't get memory in matrix()\n");
-	exit(1);
-    }
-    m -= nrl;
-    for(i = nrl; i <=  nrh; ++i) {
-	m[i] = (float *) malloc((unsigned) (nch-ncl+1)*sizeof(float));
-	if (m[i] == (float *) NULL) {
-	    fprintf(stderr, "Couldn't get memory in matrix()\n");
-	    exit(1);
-	}
-	m[i] -= ncl;
-    }
-    return(m);
-}
+ float **matrix(int nrl, int nrh, int ncl, int nch)
+ {
+   int i;
+   float **m;
 
-#if defined (__TURBOC__)
-#  pragma argsused
-#endif
+   m= (float **) malloc((unsigned) (nrh-nrl+1)*sizeof(float *));
+   if (m == (float **) NULL) {
+     fprintf(stderr, "Couldn't get memory in matrix()\n");
+     exit(1);
+   }
+   m -= nrl;
+   for(i = nrl; i <=  nrh; ++i) {
+     m[i] = (float *) malloc((unsigned) (nch-ncl+1)*sizeof(float));
+     if (m[i] == (float *) NULL) {
+       fprintf(stderr, "Couldn't get memory in matrix()\n");
+       exit(1);
+     }
+     m[i] -= ncl;
+   }
+   return(m);
+ }
 
-void
-free_vector(float *v, int nl, int nh)
-{
-    free((char *) (v+nl));
-}
+ #if defined (__TURBOC__)
+ #  pragma argsused
+ #endif
 
-#if defined (__TURBOC__)
-#  pragma argsused
-#endif
+ void
+ free_vector(float *v, int nl, int nh)
+ {
+   free((char *) (v+nl));
+ }
 
-void
-free_matrix(float **m, int nrl, int nrh, int ncl, int nch)
-{
-    int i;
+ #if defined (__TURBOC__)
+ #  pragma argsused
+ #endif
 
-    for(i=nrl; i <= nrh; ++i) {
-	free((char *) (m[i]+ncl));
-    }
-    free((char *) (m+nrl));
-}
+ void
+ free_matrix(float **m, int nrl, int nrh, int ncl, int nch)
+ {
+   int i;
 
-#if defined (__TURBOC__)
-#  pragma argsused
-#endif
+   for(i=nrl; i <= nrh; ++i) {
+     free((char *) (m[i]+ncl));
+   }
+   free((char *) (m+nrl));
+ }
 
-void
-free_ivector(int *v, int nl, int nh)
-{
-    free((char *) (v+nl));
-}
+ #if defined (__TURBOC__)
+ #  pragma argsused
+ #endif
 
-#if defined (__TURBOC__)
-#  pragma argsused
-#endif
+ void
+ free_ivector(int *v, int nl, int nh)
+ {
+   free((char *) (v+nl));
+ }
 
-void
-free_imatrix(int *m, int nrl, int nrh, int ncl, int nch)
-{
-    int i;
+ #if defined (__TURBOC__)
+ #  pragma argsused
+ #endif
 
-    for(i=nrl; i <= nrh; ++i) {
-	free((char *) (m[i]+ncl));
-    }
-    free((char *) (m+nrl));
-}
+ void
+ free_imatrix(int *m, int nrl, int nrh, int ncl, int nch)
+ {
+   int i;
 
-/** use my own strdup **/
+   for(i=nrl; i <= nrh; ++i) {
+     free((char *) (m[i]+ncl));
+   }
+   free((char *) (m+nrl));
+ }
 
-char *
-mystrdup(const char *str)
-{
-    char *s;
-    s=(char *)malloc((strlen(str)+1) * sizeof(char));
-    if (s == (char *) NULL) return (s);
-    (void) strcpy(s, str);
-    return (s);
-}
+ /** use my own strdup **/
+
+ char *
+ mystrdup(const char *str)
+ {
+   char *s;
+   s=(char *)malloc((strlen(str)+1) * sizeof(char));
+   if (s == (char *) NULL) return (s);
+   (void) strcpy(s, str);
+   return (s);
+ }
