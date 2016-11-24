@@ -1,6 +1,6 @@
 bin_PROGRAMS = distrat iodeg askmap avmap ross drsort density cmtran
 # bin_PROGRAMS = distrat
-lib_LIBRARIES = libdram.a
+noinst_LIBRARIES = libdram.a
 libdram_a_SOURCES = matutil.c readmap.c mapcache.c writemap.c version.c
 
 
