@@ -1,0 +1,14 @@
+*.o
+*.a
+
+# products
+# (makefile will need to be adjusted for put the products elsewhere
+# but until that happens, I'll just add those to .gitignore)
+askmap
+avmap
+cmtran
+density
+distrat
+drsort
+iodeg
+ross
